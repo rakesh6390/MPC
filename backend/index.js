@@ -4,16 +4,23 @@ import connectDb from './config/connectDB.js'
 import cookieParser from 'cookie-parser'
 import authRouter from './route/authRoute.js'
 dotenv.config()
+import cors from 'cors'
+import userRouter from './route/userRoute.js'
 
 const port=process.env.PORT
 
 const app = express()
 app.use(express.json())
 app.use(cookieParser())
+app.use(cors({
+    origin:"http://localhost:5173",
+    credentials:true
+}))
 
  connectDb()
 
  app.use("/api/auth",authRouter)
+ app.use("/api/auth",userRouter)
 
 
 app.get("/",(req,res)=>{

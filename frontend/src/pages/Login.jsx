@@ -5,10 +5,43 @@ import { MdOutlineRemoveRedEye } from "react-icons/md"
 import { FaEye } from "react-icons/fa";
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'
+import { serverUrl } from '../App';
+import { toast } from 'react-toastify';
+import {ClipLoader} from 'react-spinners'
+import { useDispatch } from 'react-redux';
+import { setUserData } from '../redux/userSlice';
+
 
 function Login() {
     const [show,setShow] = useState(false);
+    const [email,setEmail] = useState("");
+    const [password,setPassword] = useState("");
+    const [loading,setLoading] = useState(false);
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+      const handleLogin = async () => {
+  setLoading(true);
+  try {
+    const result = await axios.post(
+      serverUrl + "/api/auth/login",
+      {email, password },
+      { withCredentials: true }
+    );
+    DisPatch(setUserData(result.data))
+    toast.success("Login Successfully");
+    navigate("/");
+  } catch (error) {
+    console.log(error);
+    const msg =
+      error.response?.data?.message ||
+      "Something went wrong. Please try again.";
+    toast.error(msg);
+  } finally {
+    setLoading(false);
+  }
+};
   return (
      <div className="bg-[#dddbdb] w-[100vw] h-[100vh] flex items-center justify-center">
           <form className="w-[90%] md:w-[50%] h-[600px] bg-white shadow-xl rounded-2xl flex">
@@ -27,6 +60,7 @@ function Login() {
                   type="email" 
                   className="w-full h-[40px] border border-[#e7e6e6] rounded-md px-3 focus:outline-none focus:border-black" 
                   placeholder="you@example.com"
+                  onChange={(e)=>setEmail(e.target.value)} value={email}
                 />
               </div>
                 {/* Password Field */}
@@ -38,6 +72,7 @@ function Login() {
                    className="w-full h-[40px] border border-[#e7e6e6] rounded-md px-3 pr-10
                    focus:outline-none focus:border-black"
                    placeholder="••••••••"
+                   onChange={(e)=>setPassword(e.target.value)} value={password}
                   />
                  {/* Icon Toggle */}
                  {show ? (
@@ -54,9 +89,14 @@ function Login() {
                </div>
 
                
-          <div className='w-[80%] h-[40px] bg-[black] text-[white] flex items-center justify-center rounded-xl'>
-            SignUp
-          </div>
+          <button className='w-[80%] h-[40px] bg-[black] text-[white] flex items-center justify-center rounded-xl'  onClick={(e) => {
+              e.preventDefault();
+               handleLogin();
+               }} disabled={loading}>
+            {loading?<ClipLoader size={30} color='white'/>:"Login"}
+          </button>
+
+          <span className='text-13px cursor-pointer text-[#585757]'>Forgot password?</span>
           
                
                 <div className="w-[80%] flex items-center gap-2">

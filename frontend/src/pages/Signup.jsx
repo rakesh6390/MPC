@@ -5,14 +5,60 @@ import { MdOutlineRemoveRedEye } from "react-icons/md"
 import { FaEye } from "react-icons/fa";
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'
+import { serverUrl } from '../App';
+import { toast } from 'react-toastify';
+import {ClipLoader} from 'react-spinners'
+import { useDispatch } from 'react-redux';
+import { setUserData } from '../redux/userSlice';
 
 
 function Signup() {
     const [show,setShow] = useState(false);
     const navigate =useNavigate();
+    const [name,setName] = useState("");
+    const [email,setEmail] = useState("");
+    const [password,setPassword] = useState("");
+    const [role,setRole] = useState("student");
+    const [loading,setLoading] = useState(false);
+    const disPatch = useDispatch()
+
+  const handleSignup = async () => {
+  if (!name || !email || !password) {
+    toast.error("Please fill all fields");
+    return;
+  }
+  if (password.length < 8) {
+    toast.error("Password must be at least 8 characters");
+    return;
+  }
+  setLoading(true);
+  try {
+    const result = await axios.post(
+      serverUrl + "/api/auth/signup",
+      { name, email, password, role },
+      { withCredentials: true }
+    );
+    useDispatch(setUserData(result.data))
+    toast.success("Signup Successfully");
+    navigate("/");
+  } catch (error) {
+    console.log(error);
+    const msg =
+      error.response?.data?.message ||
+      "Something went wrong. Please try again.";
+    toast.error(msg);
+  } finally {
+    setLoading(false);
+  }
+};
+
+
+
+
   return (
     <div className="bg-[#dddbdb] w-[100vw] h-[100vh] flex items-center justify-center">
-      <form className="w-[90%] md:w-[50%] h-[600px] bg-white shadow-xl rounded-2xl flex">
+      <form className="w-[90%] md:w-[50%] h-[600px] bg-white shadow-xl rounded-2xl flex" onSubmit={(e)=>e.preventDefault()}>
         {/* Left div */}
         <div className="md:w-[50%] w-[100%] flex flex-col items-center justify-center gap-3">
           <div>
@@ -27,6 +73,7 @@ function Signup() {
               type="text" 
               className="w-full h-[40px] border border-[#e7e6e6] rounded-md px-3 focus:outline-none focus:border-black" 
               placeholder="Your Name"
+              onChange={(e)=>setName(e.target.value)} value={name}
             />
           </div>
           {/* Email Field */}
@@ -37,6 +84,7 @@ function Signup() {
               type="email" 
               className="w-full h-[40px] border border-[#e7e6e6] rounded-md px-3 focus:outline-none focus:border-black" 
               placeholder="you@example.com"
+              onChange={(e)=>setEmail(e.target.value)} value={email}
             />
           </div>
             {/* Password Field */}
@@ -48,6 +96,7 @@ function Signup() {
                className="w-full h-[40px] border border-[#e7e6e6] rounded-md px-3 pr-10
                focus:outline-none focus:border-black"
                placeholder="••••••••"
+               onChange={(e)=>setPassword(e.target.value)} value={password}
               />
              {/* Icon Toggle */}
              {show ? (
@@ -64,13 +113,13 @@ function Signup() {
            </div>
           {/*role*/}
           <div className="flex md:w-[50%] w-[70%] items-center justify-center">
-            <span className='px-[10px] py-[5px] border-[2px] border-[#e7e6e6] rounded-xl cursor-pointer hover:border-black' >Student</span>
-            <span className='px-[10px] py-[5px] border-[2px] border-[#e7e6e6] rounded-xl cursor-pointer hover:border-black' >Educator</span>
+            <span className={`px-[10px] py-[5px] border-[2px] border-[#e7e6e6] rounded-xl cursor-pointer hover:border-black ${role==="student"? "border-black":"border-[#646464]"}`} onClick={()=>setRole("student")}>Student</span>
+            <span className={`px-[10px] py-[5px] border-[2px] border-[#e7e6e6] rounded-xl cursor-pointer hover:border-black ${role==="educator"? "border-black":"border-[#646464]"}`} onClick={()=>setRole("educator")} >Educator</span>
           </div>
 
            {/* Signup Button */}
-          <button className="w-[80%] h-[40px] bg-black text-white rounded-md font-medium hover:bg-[#333] transition-all">
-            Sign Up
+          <button type="button" className="w-[80%] h-[40px] bg-black text-white rounded-md font-medium hover:bg-[#333] transition-all" onClick={handleSignup} disabled={loading}>
+            {loading?<ClipLoader size={30} color='white'/>:"SignUp"}
           </button>
 
           
