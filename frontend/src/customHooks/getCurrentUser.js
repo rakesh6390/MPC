@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect } from 'react'
 import { useDispatch } from "react-redux"
 
- const getCurrentUser = () => {
+ export const getCurrentUser = () => {
  const dispatch = useDispatch()
  useEffect(()=> {
    const fetchUser = async ()=>{
@@ -18,4 +18,3 @@ import { useDispatch } from "react-redux"
  },[])
 
 }
-export default getCurrentUser

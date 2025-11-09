@@ -1,5 +1,6 @@
 import React from 'react'
 import logo from "../assets/logo.png"
+import { IoPersonCircleSharp } from "react-icons/io5";
 
 function Nav() {
   return (
@@ -12,8 +13,9 @@ function Nav() {
             className='w-[60px] rounded-[5px] border-2 border-white '
           />
         </div>
-        <div>
-
+        <div className='lg:flex w-[30%] flex justify-center items-center gap-4'>
+          <IoPersonCircleSharp className='text-white lg:text-4xl fill-black text-3xl cursor-pointer'/>
+          <div className = 'px-[20px] py-[10p'>Dashboard</div>
         </div>
       </div>
     </div>
