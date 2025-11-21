@@ -21,7 +21,7 @@ function Signup() {
     const [password,setPassword] = useState("");
     const [role,setRole] = useState("student");
     const [loading,setLoading] = useState(false);
-    const disPatch = useDispatch()
+    let disPatch = useDispatch()
 
   const handleSignup = async () => {
   if (!name || !email || !password) {
@@ -39,7 +39,7 @@ function Signup() {
       { name, email, password, role },
       { withCredentials: true }
     );
-    useDispatch(setUserData(result.data))
+    disPatch(setUserData(result.data))
     toast.success("Signup Successfully");
     navigate("/");
   } catch (error) {

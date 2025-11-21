@@ -20,7 +20,7 @@ app.use(cors({
  connectDb()
 
  app.use("/api/auth",authRouter)
- app.use("/api/auth",userRouter)
+ app.use("/api/user",userRouter)
 
 
 app.get("/",(req,res)=>{

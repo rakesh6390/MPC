@@ -19,7 +19,7 @@ function Login() {
     const [password,setPassword] = useState("");
     const [loading,setLoading] = useState(false);
     const navigate = useNavigate()
-    const dispatch = useDispatch()
+    let disPatch = useDispatch()
 
       const handleLogin = async () => {
   setLoading(true);
@@ -29,7 +29,7 @@ function Login() {
       {email, password },
       { withCredentials: true }
     );
-    DisPatch(setUserData(result.data))
+    disPatch(setUserData(result.data))
     toast.success("Login Successfully");
     navigate("/");
   } catch (error) {
@@ -96,7 +96,7 @@ function Login() {
             {loading?<ClipLoader size={30} color='white'/>:"Login"}
           </button>
 
-          <span className='text-13px cursor-pointer text-[#585757]'>Forgot password?</span>
+          <span className='text-13px cursor-pointer text-[#585757]' onClick={()=>navigate("/forgot")} >Forgot Your Password?</span>
           
                
                 <div className="w-[80%] flex items-center gap-2">
