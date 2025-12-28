@@ -1,5 +1,5 @@
 import React from 'react'
-import logo from '../assets/logo.png'
+import logo from '../assets/logo.jpg'
 import google from '../assets/google.jpeg'
 import { MdOutlineRemoveRedEye } from "react-icons/md"
 import { FaEye } from "react-icons/fa";
@@ -11,7 +11,8 @@ import { toast } from 'react-toastify';
 import {ClipLoader} from 'react-spinners'
 import { useDispatch } from 'react-redux';
 import { setUserData } from '../redux/userSlice';
-
+import {signInWithPopup} from "firebase/auth"
+import { auth, provider } from '../../utils/firebase.js';
 
 function Signup() {
     const [show,setShow] = useState(false);
@@ -21,7 +22,7 @@ function Signup() {
     const [password,setPassword] = useState("");
     const [role,setRole] = useState("student");
     const [loading,setLoading] = useState(false);
-    let disPatch = useDispatch()
+    const disPatch = useDispatch()
 
   const handleSignup = async () => {
   if (!name || !email || !password) {
@@ -50,6 +51,23 @@ function Signup() {
     toast.error(msg);
   } finally {
     setLoading(false);
+  }
+};
+// ✅ MUST be here
+const googleSignUp = async () => {
+  try {
+    const response = await signInWithPopup(auth, provider);
+    let user = response.user
+    let name = user.displayName
+    let email = user.email
+
+    const result = await axios.post(serverUrl+"/api/auth/googleauth",{name:name,email:email,role},{withCredentials:true})
+    disPatch(setUserData(result.data))
+    navigate("/")
+    toast.success("Signup Successfully")
+  } catch (error) {
+    console.error(error);
+    toast.error(error.response?.data?.message || "Google signup failed");
   }
 };
 
@@ -130,7 +148,7 @@ function Signup() {
              <div className="flex-1 h-[1px] bg-[#c4c4c4]"></div>
          </div>
 
-          <div className='w-[80%] h-[40px] border-1 border-[black] rounded-[5px] flex items-center justify-center'>
+          <div className='w-[80%] h-[40px] border-1 border-[black] rounded-[5px] flex items-center justify-center' onClick={googleSignUp}>
             <img src={google} className='w-[25px]' alt="" />
             <span className='text-[18px] text-gray-500'>OOgle</span>
           </div>

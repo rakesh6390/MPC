@@ -1,5 +1,5 @@
 import React from 'react'
-import logo from '../assets/logo.png'
+import logo from '../assets/logo.jpg'
 import google from '../assets/google.jpeg'
 import { MdOutlineRemoveRedEye } from "react-icons/md"
 import { FaEye } from "react-icons/fa";
@@ -11,6 +11,8 @@ import { toast } from 'react-toastify';
 import {ClipLoader} from 'react-spinners'
 import { useDispatch } from 'react-redux';
 import { setUserData } from '../redux/userSlice';
+import { signInWithPopup } from 'firebase/auth';
+import { auth, provider } from '../../utils/firebase';
 
 
 function Login() {
@@ -40,6 +42,23 @@ function Login() {
     toast.error(msg);
   } finally {
     setLoading(false);
+  }
+};
+const googleLogin = async () => {
+  try {
+    const response = await signInWithPopup(auth, provider);
+    let user = response.user
+    let name = user.displayName
+    let email = user.email
+    let role =""
+
+    const result = await axios.post(serverUrl+"/api/auth/googleauth",{name:name,email:email,role},{withCredentials:true})
+    disPatch(setUserData(result.data))
+    navigate("/")
+    toast.success("Login Successfully")
+  } catch (error) {
+    console.error(error);
+    toast.error(error.response?.data?.message || "Google signup failed");
   }
 };
   return (
@@ -96,7 +115,7 @@ function Login() {
             {loading?<ClipLoader size={30} color='white'/>:"Login"}
           </button>
 
-          <span className='text-13px cursor-pointer text-[#585757]' onClick={()=>navigate("/forgot")} >Forgot Your Password?</span>
+          <span className='text-13px cursor-pointer text-[#585757]' onClick={()=>navigate("/forget")} >Forgot Your Password?</span>
           
                
                 <div className="w-[80%] flex items-center gap-2">
@@ -106,7 +125,7 @@ function Login() {
                 </div>
 
 
-              <div className='w-[80%] h-[40px] border-1 border-[black] rounded-[5px] flex items-center justify-center'>
+              <div className='w-[80%] h-[40px] border-1 border-[black] rounded-[5px] flex items-center justify-center' onClick={googleLogin}>
                 <img src={google} className='w-[25px]' alt="" />
                 <span className='text-[18px] text-gray-500'>OOgle</span>
               </div>

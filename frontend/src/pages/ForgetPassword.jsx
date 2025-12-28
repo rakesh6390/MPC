@@ -5,7 +5,7 @@ import { ClipLoader } from 'react-spinners'
 import { serverUrl } from '../App'
 import { toast } from 'react-toastify'
 
-function ForgotPassword() {
+function ForgetPassword() {
     let navigate = useNavigate()
     const [step,setStep] = useState(1)
     const [email,setEmail] = useState("")
@@ -206,4 +206,4 @@ function ForgotPassword() {
   )
 }
 
-export default ForgotPassword
+export default ForgetPassword
