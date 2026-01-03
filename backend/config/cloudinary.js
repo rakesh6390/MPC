@@ -1,11 +1,11 @@
 import { v2 as cloudinary} from 'cloudinary'
-
+import fs from 'fs'
 
 const uploadOnCloudinary = async(filePath)=>{
-cloudinary.config({ 
-  cloud_name: 'my_cloud_name', 
-  api_key: 'my_key', 
-  api_secret: 'my_secret'
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
 try {
@@ -16,7 +16,7 @@ try {
     fs.unlinkSync(filePath)
     return uploadResult.secure_url
 } catch (error) {
-    fs.unlinkSync(fileaPath)
+    fs.unlinkSync(filePath)
     console.log(error);
 }
 }
