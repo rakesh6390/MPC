@@ -39,8 +39,10 @@ function Nav() {
           />
         </div>
        <div className='w-[30%] lg:flex items-center justify-center gap-4 hidden'>
+
           {!userData && <IoPersonCircleSharp className='text-white lg:text-4xl fill-black text-3xl cursor-pointer' onClick={()=>setShow(!show)}/>}
-          {userData && <div className='w-[50px] h-[50px] rounded-full text-white flex items-center justify-center text-[20px] border-2 bg-black  border-white cursor-pointer' onClick={()=>setShow(!show)} >{userData?.name.slice(0,1).toUpperCase()} </div>}
+
+          {userData?.photoUrl ? <img src={userData.photoUrl} className="w-[50px] h-[50px] rounded-full text-white flex items-center justify-center text-[20px] border-2 bg-black  border-white cursor-pointer" onClick={()=>setShow(!show)}/>:<div className='w-[50px] h-[50px] rounded-full text-white flex items-center justify-center text-[20px] border-2 bg-black  border-white cursor-pointer' onClick={()=>setShow(!show)} >{userData?.name.slice(0,1).toUpperCase()} </div>}
 
           {userData?.role == "educator" ? <div className='flex items-center justify-center gap-2 text-[18px] text-white border-[2px] border-[#fdfbfb7a] bg-[#000000d5] rounded-lg w-[150px] h-[60px]' onClick={()=>navigate("/dashboard")}>Dashboard</div> :""}
 
@@ -62,7 +64,7 @@ function Nav() {
            <GiSplitCross className='w-[35px] h-[35px] fill-white absolute top-5 right-[4%] ' onClick={()=>setShowHam(prev=>!prev)} />
 
              {!userData && <IoPersonCircleSharp className='text-white lg:text-4xl fill-white text-3xl cursor-pointer'/>}
-          {userData && <div className='w-[50px] h-[50px] rounded-full text-white flex items-center justify-center text-[20px] border-2 bg-black  border-white cursor-pointer' onClick={()=>setShow(!show)} >{userData?.name.slice(0,1).toUpperCase()} </div>}
+             {userData?.photoUrl ? <img src={userData.photoUrl} className="w-[50px] h-[50px] rounded-full text-white flex items-center justify-center text-[20px] border-2 bg-black  border-white cursor-pointer" onClick={()=>setShow(!show)}/>:<div className='w-[50px] h-[50px] rounded-full text-white flex items-center justify-center text-[20px] border-2 bg-black  border-white cursor-pointer' onClick={()=>setShow(!show)} >{userData?.name.slice(0,1).toUpperCase()} </div>}
 
            <div className='flex items-center justify-center gap-2 text-[18px] text-white border-[2px] border-[#fdfbfb7a] bg-[#000000d5] rounded-lg w-[200px] h-[65px] ' onClick={()=>navigate("/myProfile")}>My Courses</div> 
 
