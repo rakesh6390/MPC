@@ -11,6 +11,8 @@ import { useSelector } from 'react-redux'
 import getCurrentUser from './customHooks/getCurrentUser.js';
 import ForgetPassword from './pages/ForgetPassword.jsx';
 import EditProfile from './pages/EditProfile.jsx';
+import Dashboard from './pages/Educator/Dashboard.jsx';
+import CreateCourses from './pages/Educator/CreateCourses.jsx';
 
 function App() {
  getCurrentUser()
@@ -27,7 +29,10 @@ function App() {
       <Route path = "/profile" element={userData?<Profile/> : <Navigate to ={"/signup"}/>}/>
       {/* <Route path="/forget" element={<ForgetPassword/>}/> */}
       <Route path = "/forget"element={<ForgetPassword />} />
-      <Route path="/editprofile" element={<EditProfile/>}/>
+      <Route path="/editprofile" element={userData ?<EditProfile/> : <Navigate to={"/signup"}/>}/>
+      <Route path = "/dashboard" element = {userData?.role==="educator"? <Dashboard/>:<Navigate to={"/signup"}/>}/>
+       <Route path = "/courses" element = {userData?.role==="educator"? <Courses/>:<Navigate to={"/signup"}/>}/>
+        <Route path = "/createcourse" element = {userData?.role==="educator"? <CreateCourses/>:<Navigate to={"/signup"}/>}/>
     </Routes>
     </>
   )
