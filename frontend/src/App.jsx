@@ -13,6 +13,7 @@ import ForgetPassword from './pages/ForgetPassword.jsx';
 import EditProfile from './pages/EditProfile.jsx';
 import Dashboard from './pages/Educator/Dashboard.jsx';
 import CreateCourses from './pages/Educator/CreateCourses.jsx';
+import Courses from './pages/Educator/Courses.jsx';
 
 function App() {
  getCurrentUser()
