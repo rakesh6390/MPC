@@ -15,6 +15,7 @@ function Courses() {
   let dispatch = useDispatch()
 
   // ----------- Getting data from Redux store -----------
+   const { userData } = useSelector(state => state.user)
   const { creatorCourseData } = useSelector(state => state.course)
 
   // ----------- Fetching courses when page loads -----------
@@ -136,7 +137,7 @@ function Courses() {
                   <td className="py-3 px-4">
                     <FaEdit
                       className="text-gray-600 hover:text-blue-600 cursor-pointer"
-                      onClick={() => navigate(`/addcourses/${course?._id}`)}
+                      onClick={() => navigate(`/editcourse/${course?._id}`)}
                     />
                   </td>
 
@@ -196,7 +197,7 @@ function Courses() {
 
                 <FaEdit
                   className="text-gray-600 hover:text-blue-600 cursor-pointer"
-                  onClick={() => navigate(`/addcourses/${course?._id}`)}
+                  onClick={() => navigate(`/editcourse/${course?._id}`)}
                 />
               </div>
 

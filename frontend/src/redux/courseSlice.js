@@ -9,7 +9,7 @@ const courseSlice = createSlice({
     },
     reducers:{
         setCreatorCourseData:(state,action)=>{
-            state,creatorCourseData=action.payload
+            state.creatorCourseData=action.payload
         },
         setCourseData:(state,action)=>{
             state.courseData=action.payload

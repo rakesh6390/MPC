@@ -14,6 +14,7 @@ import EditProfile from './pages/EditProfile.jsx';
 import Dashboard from './pages/Educator/Dashboard.jsx';
 import CreateCourses from './pages/Educator/CreateCourses.jsx';
 import Courses from './pages/Educator/Courses.jsx';
+import EditCourse from './pages/Educator/EditCourse.jsx';
 
 function App() {
  getCurrentUser()
@@ -34,6 +35,7 @@ function App() {
       <Route path = "/dashboard" element = {userData?.role==="educator"? <Dashboard/>:<Navigate to={"/signup"}/>}/>
        <Route path = "/courses" element = {userData?.role==="educator"? <Courses/>:<Navigate to={"/signup"}/>}/>
         <Route path = "/createcourse" element = {userData?.role==="educator"? <CreateCourses/>:<Navigate to={"/signup"}/>}/>
+        <Route path='/editcourse/:courseId' element={userData?.role === "educator"?<EditCourse/>:<Navigate to={"/signup"}/>}/>
     </Routes>
     </>
   )
