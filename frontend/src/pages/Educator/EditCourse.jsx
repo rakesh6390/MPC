@@ -37,8 +37,11 @@ function EditCourse() {
           <button className="bg-red-600 text-white px-4 py-2 rounded-md" disabled={loading} onClick={removeCourse}>{loading?<ClipLoader size={30} color='white'/> :"Remove Course"}</button>
         </div>
 
-           <form action="">
-            
+           <form className="space-y-6">
+            <div>
+              <label htmlFor=""></label>
+            </div>
+
            </form>
 
       </div>
