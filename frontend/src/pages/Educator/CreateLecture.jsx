@@ -15,14 +15,19 @@ function CreateLecture() {
     const [loading,setLoading] = useState(false)
     const dispatch = useDispatch()
     const {lectureData} = useSelector(state=>state.lecture)
+    const lectures = Array.isArray(lectureData) ? lectureData : []
     
 
     const createLectureHandler = async () => {
+      if (!courseId) {
+        toast.error("Course id is missing")
+        return
+      }
       setLoading(true)
       try {
         const result = await axios.post(serverUrl + `/api/course/createlecture/${courseId}` ,{lectureTitle} , {withCredentials:true})
         console.log(result.data)
-      dispatch(setLectureData([...lectureData,result.data.lecture]))
+      dispatch(setLectureData([...lectures, result.data.lecture]))
         toast.success("Lecture Created")
         setLoading(false)
         setLectureTitle("")
@@ -34,6 +39,9 @@ function CreateLecture() {
     }
 
     useEffect(()=>{
+      if (!courseId) {
+        return
+      }
       const getLecture = async () => {
         try {
           const result = await axios.get(serverUrl + `/api/course/getcourselecture/${courseId}`,{withCredentials:true})
@@ -50,7 +58,7 @@ function CreateLecture() {
         
       }
       getLecture()
-    },[])
+    },[courseId, dispatch])
 
    
   
@@ -85,7 +93,7 @@ function CreateLecture() {
 
         {/* Lecture List */}
          <div className="space-y-2">
-          {lectureData.map((lecture, index) => (
+          {lectures.map((lecture, index) => (
             <div key={index} className="bg-gray-100 rounded-md flex justify-between items-center p-3 text-sm font-medium text-gray-700">
               <span>Lecture - {index + 1}: {lecture.lectureTitle}</span>
               <FaEdit className="text-gray-500 hover:text-gray-700 cursor-pointer"  onClick={()=>navigate(`/editlecture/${courseId}/${lecture._id}`)}/>

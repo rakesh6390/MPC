@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import uploadOnCloudinary from "../config/cloudinary.js";
 import Course from "../model/courseModel.js";
 import Lecture from "../model/lectureModel.js";
@@ -27,8 +28,7 @@ export const createCourse = async (req, res) => {
 // ================= GET PUBLISHED COURSES =================
 export const getPublishedCourses = async (req, res) => {
   try {
-    const courses = await Course.find({ isPublished: true })
-      .populate("lectures");
+    const courses = await Course.find({ isPublished: true }).populate("lectures");
 
     return res.status(200).json(courses);
   } catch (error) {
@@ -76,11 +76,9 @@ export const editCourse = async (req, res) => {
       thumbnail,
     };
 
-    const updatedCourse = await Course.findByIdAndUpdate(
-      courseId,
-      updateData,
-      { new: true }
-    );
+    const updatedCourse = await Course.findByIdAndUpdate(courseId, updateData, {
+      new: true,
+    });
 
     return res.status(200).json(updatedCourse);
   } catch (error) {
@@ -92,6 +90,10 @@ export const editCourse = async (req, res) => {
 export const getCourseById = async (req, res) => {
   try {
     const { courseId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(courseId)) {
+      return res.status(400).json({ message: "Invalid course id" });
+    }
 
     const course = await Course.findById(courseId);
     if (!course) {
@@ -131,14 +133,18 @@ export const createLecture = async (req, res) => {
       return res.status(400).json({ message: "Lecture Title Required" });
     }
 
-    const lecture = await Lecture.create({ lectureTitle });
-
-    const course = await Course.findById(courseId); // ❌ findBuId → ✅ findById
-    if (course) {
-      course.lectures.push(lecture._id); // ❌ lecture → ✅ lectures
-      await course.save();
+    if (!mongoose.Types.ObjectId.isValid(courseId)) {
+      return res.status(400).json({ message: "Invalid course id" });
     }
 
+    const course = await Course.findById(courseId);
+    if (!course) {
+      return res.status(404).json({ message: "Course not found" });
+    }
+
+    const lecture = await Lecture.create({ lectureTitle });
+    course.lectures.push(lecture._id);
+    await course.save();
     await course.populate("lectures");
 
     return res.status(201).json({ lecture, course });
@@ -151,6 +157,10 @@ export const createLecture = async (req, res) => {
 export const getCourseLecture = async (req, res) => {
   try {
     const { courseId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(courseId)) {
+      return res.status(400).json({ message: "Invalid course id" });
+    }
 
     const course = await Course.findById(courseId).populate("lectures");
     if (!course) {

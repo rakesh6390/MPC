@@ -31,7 +31,7 @@ function EditCourse() {
 
   const getCourseById = async()=> {
     try {
-      const result = await axios.get(serverUrl + `/api/course/getcourse/&{courseId}`,{withCredentials:true})
+      const result = await axios.get(serverUrl + `/api/course/getcourse/${courseId}`,{withCredentials:true})
       setSelectedCourse(result.data)
       console.log(result)
        
@@ -139,7 +139,7 @@ function EditCourse() {
             add detail information regarding the course
           </h2>
           <div className="space-x-2 space-y-2 ">
-            <button className="bg-black text-white px-4 py-2 rounded-md" onClick={()=>navigate(`/createlecture/${selectedCourse?._id}`)}>
+            <button className="bg-black text-white px-4 py-2 rounded-md" onClick={()=>navigate(`/createlecture/${courseId}`)}>
               go to lecture page
             </button>
           </div>

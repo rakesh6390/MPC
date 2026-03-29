@@ -7,7 +7,7 @@ const lectureSlice = createSlice({
     },
     reducers:{
         setLectureData:(state,action)=>{
-            state.lectureData = action.pauload
+            state.lectureData = action.payload
         }
     }
 })
