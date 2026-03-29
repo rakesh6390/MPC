@@ -12,20 +12,32 @@ function CreateCourses() {
   const [title,setTitle] = useState("")
   const [category,setCategory] = useState("");
 
-  const CreateCourseHandler=async()=>{
+  const CreateCourseHandler=async(e)=>{
+    e.preventDefault();
+
+    if (!title.trim() || !category) {
+      toast.error("Please enter a course title and category");
+      return;
+    }
+
     setLoading(true);
     try {
-      const result = await axios.post(serverUrl+"/api/course/create",{title,category},{withCredentials:true});
+      const result = await axios.post(
+        serverUrl + "/api/course/create",
+        { title: title.trim(), category },
+        { withCredentials: true }
+      );
 
       console.log(result.data);
 
       toast.success("Course Created");
-            navigate("/courses");   // Redirect to courses page
-            setTitle("");           // Reset title field
-            setLoading(false);
+      setTitle("");
+      setCategory("");
+      navigate("/courses");
+      setLoading(false);
     } catch (error) {
-       setLoading(false);
-            toast.error(error.response.data.message);
+      setLoading(false);
+      toast.error(error.response?.data?.message || "Failed to create course");
     }
   }
   return (
@@ -43,7 +55,7 @@ function CreateCourses() {
                 </h2>
               
                 {/* ----------- FORM START ----------- */}          
-             <form className="space-y-5" onSubmit={(e)=>e.preventDefault()}>
+             <form className="space-y-5" onSubmit={CreateCourseHandler}>
                 {/* ----------- COURSE TITLE INPUT ----------- */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Course Title</label>
@@ -51,7 +63,7 @@ function CreateCourses() {
               </div>
               {/*category select*/}
               <div>
-                <select className="w-full border border-gray-300 rounded-md px-4 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-[black]" onChange={(e)=>setCategory(e.target.value)}>
+                <select className="w-full border border-gray-300 rounded-md px-4 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-[black]" onChange={(e)=>setCategory(e.target.value)} value={category}>
                   <option value="">Select Category
                   </option>
                   <option value="App Development">App Development</option>
@@ -66,7 +78,7 @@ function CreateCourses() {
                 </select>
               </div>
               <button type="submit" className="w-full bg-[black] text-white py-2 px-4 rounded-md active:bg-[#3a3a3a] transition"
-              disabled={CreateCourseHandler}>
+              disabled={loading}>
                 {loading?<ClipLoader size={30} color="white"/>:"Create"}
               </button>
              </form>

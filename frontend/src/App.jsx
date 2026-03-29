@@ -15,9 +15,14 @@ import Dashboard from './pages/Educator/Dashboard.jsx';
 import CreateCourses from './pages/Educator/CreateCourses.jsx';
 import Courses from './pages/Educator/Courses.jsx';
 import EditCourse from './pages/Educator/EditCourse.jsx';
+import getCreatorCourseData from './customHooks/getCreatorCourseData.js';
+import getPublishedCourse from './customHooks/getPublishedCourse.js';
+import AllCourses from './pages/AllCourses.jsx';
 
 function App() {
  getCurrentUser()
+ getCreatorCourseData()
+ getPublishedCourse()
   
   const {userData} = useSelector(state=>state.user)
   
@@ -32,9 +37,10 @@ function App() {
       {/* <Route path="/forget" element={<ForgetPassword/>}/> */}
       <Route path = "/forget"element={<ForgetPassword />} />
       <Route path="/editprofile" element={userData ?<EditProfile/> : <Navigate to={"/signup"}/>}/>
+      <Route path="/allcourses" element={userData ?<AllCourses/> : <Navigate to={"/signup"}/>}/>
       <Route path = "/dashboard" element = {userData?.role==="educator"? <Dashboard/>:<Navigate to={"/signup"}/>}/>
        <Route path = "/courses" element = {userData?.role==="educator"? <Courses/>:<Navigate to={"/signup"}/>}/>
-        <Route path = "/createcourse" element = {userData?.role==="educator"? <CreateCourses/>:<Navigate to={"/signup"}/>}/>
+        <Route path = "/createcourses" element = {userData?.role==="educator"? <CreateCourses/>:<Navigate to={"/signup"}/>}/>
         <Route path='/editcourse/:courseId' element={userData?.role === "educator"?<EditCourse/>:<Navigate to={"/signup"}/>}/>
     </Routes>
     </>

@@ -8,7 +8,7 @@ import cors from 'cors'
 import userRouter from './route/userRoute.js'
 import courseRouter from './route/courseRoute.js'
 
-const port=process.env.PORT
+const port = process.env.PORT || process.env.Port || 3000
 
 const app = express()
 app.use(express.json())
@@ -30,5 +30,5 @@ app.get("/",(req,res)=>{
 })
 
 app.listen(port,()=>{
-    console.log("server started at 3000")
+    console.log(`server started at ${port}`)
 })

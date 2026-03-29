@@ -19,7 +19,7 @@ import {
 const courseRouter = express.Router();
 
 courseRouter.post("/create", isAuth, createCourse);
-courseRouter.get("/getpublishedcourses", getPublishedCourses);
+courseRouter.get("/getpublished", getPublishedCourses);
 courseRouter.get("/getcreatorcourses", isAuth, getCreatorCourses);
 courseRouter.post("/editcourse/:courseId", isAuth, upload.single("thumbnail"), editCourse);
 courseRouter.get("/getcourse/:courseId", isAuth, getCourseById);

@@ -53,7 +53,7 @@ function Nav() {
           {show && <div className=' absolute top-[110%] right-[15%] flex items-center flex-col justify-center gap-2 text-[16px] rounded-md bg-[white] px-[15px] py-[10px] border-[2px]  border-black hover:border-white hover:text-white cursor-pointer hover:bg-black  '>
 
             <span className='bg-[black] text-white  px-[30px] py-[10px] rounded-2xl hover:bg-gray-600' onClick={()=>{navigate("/profile")}} >My Profile</span>
-            <span className='bg-[black] text-white hover:bg-gray-600  px-[25px] py-[10px] rounded-2xl'>My Courses</span>
+            <span className='bg-[black] text-white hover:bg-gray-600  px-[25px] py-[10px] rounded-2xl' onClick={()=>{navigate("/courses")}}>My Courses</span>
 
           </div>}
           
@@ -66,7 +66,7 @@ function Nav() {
              {!userData && <IoPersonCircleSharp className='text-white lg:text-4xl fill-white text-3xl cursor-pointer'/>}
              {userData?.photoUrl ? <img src={userData.photoUrl} className="w-[50px] h-[50px] rounded-full text-white flex items-center justify-center text-[20px] border-2 bg-black  border-white cursor-pointer" onClick={()=>setShow(!show)}/>:<div className='w-[50px] h-[50px] rounded-full text-white flex items-center justify-center text-[20px] border-2 bg-black  border-white cursor-pointer' onClick={()=>setShow(!show)} >{userData?.name.slice(0,1).toUpperCase()} </div>}
 
-           <div className='flex items-center justify-center gap-2 text-[18px] text-white border-[2px] border-[#fdfbfb7a] bg-[#000000d5] rounded-lg w-[200px] h-[65px] ' onClick={()=>navigate("/myProfile")}>My Courses</div> 
+           <div className='flex items-center justify-center gap-2 text-[18px] text-white border-[2px] border-[#fdfbfb7a] bg-[#000000d5] rounded-lg w-[200px] h-[65px] ' onClick={()=>navigate("/courses")}>My Courses</div> 
 
            <div className='flex items-center justify-center gap-2 text-[18px] text-white border-[2px] border-[#fdfbfb7a] bg-[#000000d5] rounded-lg w-[200px] h-[65px] ' onClick={()=>navigate("/profile")}>My Profile</div>
 

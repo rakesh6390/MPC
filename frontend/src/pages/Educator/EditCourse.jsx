@@ -21,11 +21,11 @@ function EditCourse() {
    const [category,setCategory] = useState("")
    const [level,setLevel] = useState("")
    const [price,setPrice] = useState("")
-   cosnt [frontendImage,setFrontendImage] = useState(null)
+   const [frontendImage,setFrontendImage] = useState(null)
    const thumb = useRef()
    const [backendImage,setBackendImage] = useState(null)
    let [loading,setLoading] = useState(false)
-   const dispatch = useDisPatch()
+   const dispatch = useDispatch()
    const {courseData} = useSelector(state=>state.course)
    
 
@@ -41,7 +41,7 @@ function EditCourse() {
   }
 
   useEffect(()=>{
-    if(selectedCouse){
+    if(selectedCourse){
       setTitle(selectedCourse.title || "")
       setSubTitle(selectedCourse.subTitle || "")
     setDescription(selectedCourse.description || "")
@@ -115,7 +115,7 @@ function EditCourse() {
       toast.success("Course Deleted")
        const filteredCourses = courseData.filter(c => c._id !== courseId);
       dispatch(setCourseData(filteredCourses));
-      console.log(result)
+      console.log(result.data)
       navigate("/courses")
       setLoading(false)
 
