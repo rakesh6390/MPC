@@ -18,12 +18,17 @@ import {
 
 const courseRouter = express.Router();
 
+//courses routes
+
 courseRouter.post("/create", isAuth, createCourse);
 courseRouter.get("/getpublished", getPublishedCourses);
 courseRouter.get("/getcreatorcourses", isAuth, getCreatorCourses);
 courseRouter.post("/editcourse/:courseId", isAuth, upload.single("thumbnail"), editCourse);
 courseRouter.get("/getcourse/:courseId", isAuth, getCourseById);
 courseRouter.delete("/removecourse/:courseId", isAuth, removeCourse);
+
+//lectures routes
+
 courseRouter.post("/createlecture/:courseId", isAuth, createLecture);
 courseRouter.get("/getcourselecture/:courseId", isAuth, getCourseLecture);
 courseRouter.post("/editlecture/:lectureId", isAuth, upload.single("videoUrl"), editLecture);
