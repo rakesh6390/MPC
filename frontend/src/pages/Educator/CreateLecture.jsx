@@ -82,7 +82,7 @@ function CreateLecture() {
 
         {/* Buttons */}
         <div className="flex gap-4 mb-6">
-          <button className="flex items-center gap-2 px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300 text-sm font-medium" onClick={()=>navigate(`/addcourses/${courseId}`)
+          <button className="flex items-center gap-2 px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300 text-sm font-medium" onClick={()=>navigate(`/editcourse/${courseId}`)
           }>
             <FaArrowLeft /> Back to Course
           </button>
