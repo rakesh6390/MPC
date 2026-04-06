@@ -2,6 +2,7 @@ import React from 'react'
 import logo from '../assets/logo.jpg'
 import google from '../assets/google.jpeg'
 import { MdOutlineRemoveRedEye } from "react-icons/md"
+import { FaArrowLeftLong } from "react-icons/fa6";
 import { FaEye } from "react-icons/fa";
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -64,9 +65,13 @@ const googleLogin = async () => {
   return (
      <div className="bg-[#dddbdb] w-[100vw] h-[100vh] flex items-center justify-center">
           <form className="w-[90%] md:w-[50%] h-[600px] bg-white shadow-xl rounded-2xl flex">
+             <FaArrowLeftLong  className='absolute top-[11%] left-[26%] w-[22px] h-[22px] cursor-pointer' onClick={()=>navigate("/")}/>
+           
             {/* Left div */}
             <div className="md:w-[50%] w-[100%] flex flex-col items-center justify-center gap-3">
+              
               <div>
+                
                 <h1 className='font-semibold text-[black] text-2xl '>Welcome back</h1>
                 <h2 className='text-[#999797] text-[18px]'>Login your account</h2>
               </div>

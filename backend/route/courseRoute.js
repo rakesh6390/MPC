@@ -15,6 +15,7 @@ import {
   removeCourse,
   removeLecture
 } from "../controller/courseController.js";   // ✅ added .js
+import { searchWithAi } from "../controller/aiController.js";
 
 const courseRouter = express.Router();
 
@@ -34,5 +35,10 @@ courseRouter.get("/getcourselecture/:courseId", isAuth, getCourseLecture);
 courseRouter.post("/editlecture/:lectureId", isAuth, upload.single("videoUrl"), editLecture);
 courseRouter.delete("/removelecture/:lectureId", isAuth, removeLecture);
 courseRouter.post("/getcreator", isAuth, getCreatorById);
+
+
+// for ai search
+
+courseRouter.post("/searchwithai", searchWithAi);
 
 export default courseRouter;

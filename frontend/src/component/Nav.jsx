@@ -66,7 +66,7 @@ function Nav() {
              {!userData && <IoPersonCircleSharp className='text-white lg:text-4xl fill-white text-3xl cursor-pointer'/>}
              {userData?.photoUrl ? <img src={userData.photoUrl} className="w-[50px] h-[50px] rounded-full text-white flex items-center justify-center text-[20px] border-2 bg-black  border-white cursor-pointer" onClick={()=>setShow(!show)}/>:<div className='w-[50px] h-[50px] rounded-full text-white flex items-center justify-center text-[20px] border-2 bg-black  border-white cursor-pointer' onClick={()=>setShow(!show)} >{userData?.name.slice(0,1).toUpperCase()} </div>}
 
-           <div className='flex items-center justify-center gap-2 text-[18px] text-white border-[2px] border-[#fdfbfb7a] bg-[#000000d5] rounded-lg w-[200px] h-[65px] ' onClick={()=>navigate("/courses")}>My Courses</div> 
+           <div className='flex items-center justify-center gap-2 text-[18px] text-white border-[2px] border-[#fdfbfb7a] bg-[#000000d5] rounded-lg w-[200px] h-[65px] ' onClick={()=>navigate("/enrolledcourses")}>My Courses</div> 
 
            <div className='flex items-center justify-center gap-2 text-[18px] text-white border-[2px] border-[#fdfbfb7a] bg-[#000000d5] rounded-lg w-[200px] h-[65px] ' onClick={()=>navigate("/profile")}>My Profile</div>
 

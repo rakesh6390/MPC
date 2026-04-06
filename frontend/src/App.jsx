@@ -21,11 +21,16 @@ import AllCourses from './pages/AllCourses.jsx';
 import CreateLecture from './pages/Educator/CreateLecture.jsx';
 import EditLecture from './pages/Educator/EditLecture.jsx';
 import ViewCourse from './pages/ViewCourse.jsx';
+import ViewLecture from './pages/ViewLecture.jsx';
+import EnrolledCourses from './pages/EnrolledCourses.jsx';
+import getAllReviews from './customHooks/getAllReviews.js';
+import SearchWithAi from './pages/SearchWithAi.jsx';
 
 function App() {
  getCurrentUser()
  getCreatorCourseData()
  getPublishedCourse()
+ getAllReviews()
   
   const {userData} = useSelector(state=>state.user)
   
@@ -48,6 +53,9 @@ function App() {
         <Route path='/createlecture/:courseId' element={userData?.role === "educator"?<CreateLecture/>:<Navigate to={"/signup"}/>}/>
          <Route path='/editlecture/:courseId/:lectureId' element={userData?.role === "educator"?<EditLecture/>:<Navigate to={"/signup"}/>}/>
          <Route path='/viewcourse/:courseId' element={userData?<ViewCourse/>:<Navigate to={"/signup"}/>}/>
+         <Route path='/viewlecture/:courseId' element={userData?<ViewLecture/>:<Navigate to={"/signup"}/>}/>
+         <Route path='/enrolledcourses' element={userData?<EnrolledCourses/>:<Navigate to={"/signup"}/>}/>
+         <Route path='/searchwithai' element={userData?<SearchWithAi/>:<Navigate to={"/signup"}/>}/>
     </Routes>
     </>
   )

@@ -9,6 +9,7 @@ import { setCreatorCourseData } from '../../redux/courseSlice';
 import img1 from "../../assets/empty.jpg"
 import { FaArrowLeftLong } from "react-icons/fa6";
 
+
 function Courses() {
 
   let navigate = useNavigate()
