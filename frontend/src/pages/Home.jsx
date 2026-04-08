@@ -3,7 +3,7 @@ import Nav from '../component/Nav'
 import home from "../assets/home.jpg"
 import { SiViaplay } from "react-icons/si";
 import ai from "../assets/ai.png"
-import ai1 from "../assets/SearchAi.png"
+import ai1 from "../assets/searchAi.png"
 import Logos from '../component/Logos.jsx';
 import ExploreCourses from '../component/ExploreCourses.jsx';
 import CardPage from '../component/CardPage'

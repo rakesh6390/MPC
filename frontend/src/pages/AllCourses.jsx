@@ -3,7 +3,7 @@ import Card from "../component/card.jsx";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom';
 import Nav from '../component/Nav';
-import ai from '../assets/SearchAi.png'
+import ai from '../assets/searchAi.png'
 import { useSelector } from 'react-redux';
 function AllCourses() {
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
