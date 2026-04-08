@@ -4,7 +4,7 @@ import { Navigate } from "react-router-dom";
 import Home from './pages/Home.jsx'
 import Signup from './pages/Signup.jsx'
 import Login from './pages/Login.jsx'
-export const serverUrl = "http://localhost:3000"
+export const serverUrl = "https://mpc-1-3fq1.onrender.com"
 import {ToastContainer} from 'react-toastify'
 import Profile from './pages/Profile.jsx'
 import { useSelector } from 'react-redux'
