@@ -1,11 +1,20 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
+import { toast } from 'react-toastify'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate, useParams } from 'react-router-dom'
+import { FaArrowLeftLong } from "react-icons/fa6";
+import { FaLock, FaPlayCircle, FaStar } from "react-icons/fa";
+import img from "../assets/empty.jpg"
+import Card from '../component/card.jsx'
+import { serverUrl } from '../App'
 import { setSelectedCourseData } from '../redux/courseSlice';
 
 function ViewCourse() {
 
 const {courseId} = useParams();
 const navigate = useNavigate()
-const {courseData} = useselector(state=>state.course)
+const {courseData = []} = useSelector(state=>state.course)
 const {userData} = useSelector(state=>state.user)
 const [creatorData , setCreatorData] = useState(null)
 const dispatch = useDispatch()
@@ -19,11 +28,11 @@ const [comment, setComment] = useState("");
 
 const handleReview = async () =>{
   try {
-    const result = await  axios.post(serverUrl+"/api/review/givereview",{rating ,comment,courseId},{withcredentials:true})
+    const result = await  axios.post(serverUrl+"/api/review/givereview",{rating ,comment,courseId},{withCredentials:true})
     toast.success("Review added")
     console.log(result.data)
     setRating(0)
-    setCommnent("")
+    setComment("")
   } catch (error) {
     console.log(error)
     toast.error(error.response.data.message)
@@ -105,7 +114,7 @@ useEffect(()=>{
     setSelectedCreatorCourse(creatorCourses);
   
   }
-}, [creatorData, courseData]);
+}, [creatorData, courseData, courseId]);
 
 
 
@@ -115,7 +124,7 @@ useEffect(()=>{
 const handleEnroll = async (courseId, userId) => {
   try {
     // 1. Create Order
-    const orderData = await axios.post(serverUrl + "/api/payment/create-order", {
+    const orderData = await axios.post(serverUrl + "/api/order/create-order", {
       courseId,
       userId
     } , {withCredentials:true});
@@ -127,11 +136,11 @@ const handleEnroll = async (courseId, userId) => {
       currency: "INR",
       name: "Virtual Courses",
       description: "Course Enrollment Payment",
-      order_id: orderData.data.id,
+      order_id: orderData.data.orderId,
       handler: async function (response) {
   console.log("Razorpay Response:", response);
   try {
-    const verifyRes = await axios.post(serverUrl + "/api/payment/verify-payment",{
+    const verifyRes = await axios.post(serverUrl + "/api/order/verify-payment",{
   ...response,       
   courseId,
   userId

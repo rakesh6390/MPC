@@ -9,6 +9,7 @@ function EnrolledCourse() {
   const navigate = useNavigate()
 
   const { userData } = useSelector((state) => state.user);
+  const { courseData = [] } = useSelector((state) => state.course);
 
      
    
@@ -27,24 +28,37 @@ function EnrolledCourse() {
         <p className="text-gray-500 text-center w-full">You haven’t enrolled in any course yet.</p>
       ) : (
         <div className="flex items-center justify-center flex-wrap gap-[30px]">
-          {userData.enrolledCourses.map((course) => (
+          {userData.enrolledCourses.map((course, index) => {
+            const courseId = typeof course === "string" ? course : course?._id;
+            const resolvedCourse = courseData.find((item) => item._id === courseId) || course;
+
+            return (
             <div
-              key={course._id}
+              key={courseId || index}
               className="bg-white rounded-2xl shadow-md overflow-hidden border"
             >
-              <img
-                src={course.thumbnail}
-                alt={course.title}
-                className="w-full h-40 object-cover"
-              />
+              {resolvedCourse?.thumbnail ? (
+                <img
+                  src={resolvedCourse.thumbnail}
+                  alt={resolvedCourse.title}
+                  className="w-full h-40 object-cover"
+                />
+              ) : (
+                <div className="w-full h-40 bg-gray-200" />
+              )}
               <div className="p-4">
-                <h2 className="text-lg font-semibold text-gray-800">{course.title}</h2>
-                <p className="text-sm text-gray-600 mb-2">{course.category}</p>
-                <p className="text-sm text-gray-700">{course.level}</p>
-                <h1 className='px-[10px] text-center  py-[10px] border-2  bg-black border-black text-white  rounded-[10px] text-[15px] font-light flex items-center justify-center gap-2 cursor-pointer mt-[10px] hover:bg-gray-600' onClick={()=>navigate(`/viewlecture/${course._id}`)}>Watch Now</h1>
+                <h2 className="text-lg font-semibold text-gray-800">{resolvedCourse?.title || "Enrolled Course"}</h2>
+                <p className="text-sm text-gray-600 mb-2">{resolvedCourse?.category || "Category not available"}</p>
+                <p className="text-sm text-gray-700">{resolvedCourse?.level || "Level not available"}</p>
+                <h1
+                  className='px-[10px] text-center  py-[10px] border-2  bg-black border-black text-white  rounded-[10px] text-[15px] font-light flex items-center justify-center gap-2 cursor-pointer mt-[10px] hover:bg-gray-600'
+                  onClick={() => courseId && navigate(`/viewlecture/${courseId}`)}
+                >
+                  Watch Now
+                </h1>
               </div>
             </div>
-          ))}
+          )})}
         </div>
       )}
     </div>

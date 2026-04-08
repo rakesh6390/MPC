@@ -7,6 +7,9 @@ dotenv.config()
 import cors from 'cors'
 import userRouter from './route/userRoute.js'
 import courseRouter from './route/courseRoute.js'
+import paymentRouter from './route/PaymentRoute.js'
+import reviewRouter from './route/reviewRoute.js'
+import aiRouter from './route/aiRoute.js'
 
 const port = process.env.PORT || process.env.Port || 3000
 
@@ -24,6 +27,8 @@ app.use(cors({
  app.use("/api/user",userRouter)
  app.use("/api/course",courseRouter)
  app.use("/api/order", paymentRouter)
+ app.use("/api/review", reviewRouter)
+ app.use("/api/ai",aiRouter)
 
 
 app.get("/",(req,res)=>{

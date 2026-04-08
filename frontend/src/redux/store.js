@@ -9,6 +9,6 @@ export const store = configureStore({
     user:userSlice,
     course:courseSlice,
     lecture:lectureSlice,
-    reviewSlice:reviewSlice
+    review:reviewSlice
    }
 })

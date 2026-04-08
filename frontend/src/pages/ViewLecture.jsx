@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FaPlayCircle } from 'react-icons/fa';
@@ -8,13 +8,22 @@ function ViewLecture() {
   const { courseId } = useParams();
   const { courseData } = useSelector((state) => state.course);
   const {userData} = useSelector((state) => state.user)
-  const selectedCourse = courseData?.find((course) => course._id === courseId);
+  const enrolledCourse = userData?.enrolledCourses?.find((course) => {
+    const enrolledId = typeof course === "string" ? course : course?._id;
+    return enrolledId === courseId;
+  });
+  const publishedCourse = courseData?.find((course) => course._id === courseId);
+  const selectedCourse = publishedCourse || enrolledCourse || null;
 
   const [selectedLecture, setSelectedLecture] = useState(
     selectedCourse?.lectures?.[0] || null
   );
   const navigate = useNavigate()
   const courseCreator = userData?._id === selectedCourse?.creator ? userData : null;
+
+  useEffect(() => {
+    setSelectedLecture(selectedCourse?.lectures?.[0] || null);
+  }, [selectedCourse]);
 
 
   return (
@@ -88,11 +97,17 @@ function ViewLecture() {
   <div className="mt-4 border-t pt-4">
     <h3 className="text-md font-semibold text-gray-700 mb-3">Instructor</h3>
     <div className="flex items-center gap-4">
-      <img
-        src={courseCreator.photoUrl || '/default-avatar.png'}
-        alt="Instructor"
-        className="w-14 h-14 rounded-full object-cover border"
-      />
+      {courseCreator?.photoUrl?.trim() ? (
+        <img
+          src={courseCreator.photoUrl}
+          alt="Instructor"
+          className="w-14 h-14 rounded-full object-cover border"
+        />
+      ) : (
+        <div className="w-14 h-14 rounded-full border flex items-center justify-center bg-gray-200 text-gray-700 font-semibold">
+          {courseCreator?.name?.slice(0,1)?.toUpperCase() || "I"}
+        </div>
+      )}
       <div>
         <h4 className="text-base font-medium text-gray-800">{courseCreator.name}</h4>
         <p className="text-sm text-gray-600">

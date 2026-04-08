@@ -3,7 +3,14 @@ import User from "../model/userModel.js"
 
 export const getCurrentUser = async (req,res)=>{
     try{
-        const user = await User.findById(req.userId).select("-password")
+        const user = await User.findById(req.userId)
+        .select("-password")
+        .populate({
+            path: "enrolledCourses",
+            populate: {
+                path: "lectures"
+            }
+        })
         if(!user){
             return res.status(400).json({message:"user not found"})
         }

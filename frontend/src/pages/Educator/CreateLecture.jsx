@@ -23,9 +23,14 @@ function CreateLecture() {
         toast.error("Course id is missing")
         return
       }
+      const trimmedTitle = lectureTitle.trim()
+      if (!trimmedTitle) {
+        toast.error("Lecture title is required")
+        return
+      }
       setLoading(true)
       try {
-        const result = await axios.post(serverUrl + `/api/course/createlecture/${courseId}` ,{lectureTitle} , {withCredentials:true})
+        const result = await axios.post(serverUrl + `/api/course/createlecture/${courseId}` ,{lectureTitle: trimmedTitle} , {withCredentials:true})
         console.log(result.data)
       dispatch(setLectureData([...lectures, result.data.lecture]))
         toast.success("Lecture Created")

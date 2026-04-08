@@ -55,11 +55,6 @@ export const editCourse = async (req, res) => {
     const { courseId } = req.params;
     const { title, subTitle, description, category, level, price, isPublished } = req.body;
 
-    let thumbnail;
-    if (req.file) {
-      thumbnail = await uploadOnCloudinary(req.file.path);
-    }
-
     const course = await Course.findById(courseId);
     if (!course) {
       return res.status(404).json({ message: "Course not found" });
@@ -72,9 +67,15 @@ export const editCourse = async (req, res) => {
       category,
       level,
       price,
-      isPublished,
-      thumbnail,
+      isPublished
     };
+
+    if (req.file) {
+      const thumbnail = await uploadOnCloudinary(req.file.path);
+      if (thumbnail) {
+        updateData.thumbnail = thumbnail;
+      }
+    }
 
     const updatedCourse = await Course.findByIdAndUpdate(courseId, updateData, {
       new: true,
@@ -128,8 +129,9 @@ export const createLecture = async (req, res) => {
   try {
     const { lectureTitle } = req.body;
     const { courseId } = req.params;
+    const trimmedLectureTitle = lectureTitle?.trim();
 
-    if (!lectureTitle || !courseId) {
+    if (!trimmedLectureTitle || !courseId) {
       return res.status(400).json({ message: "Lecture Title Required" });
     }
 
@@ -142,7 +144,7 @@ export const createLecture = async (req, res) => {
       return res.status(404).json({ message: "Course not found" });
     }
 
-    const lecture = await Lecture.create({ lectureTitle });
+    const lecture = await Lecture.create({ lectureTitle: trimmedLectureTitle });
     course.lectures.push(lecture._id);
     await course.save();
     await course.populate("lectures");

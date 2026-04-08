@@ -8,7 +8,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { ClipLoader } from 'react-spinners';
-import { setCourseData } from '../../redux/courseSlice';
+import { setCreatorCourseData } from '../../redux/courseSlice';
 
 function EditCourse() {
   const navigate = useNavigate()
@@ -26,7 +26,7 @@ function EditCourse() {
    const [backendImage,setBackendImage] = useState(null)
    let [loading,setLoading] = useState(false)
    const dispatch = useDispatch()
-   const {courseData} = useSelector(state=>state.course)
+   const {creatorCourseData = []} = useSelector(state=>state.course)
    
 
   const getCourseById = async()=> {
@@ -73,7 +73,9 @@ function EditCourse() {
   formData.append("category", category);
   formData.append("level", level);
   formData.append("price", price);
-  formData.append("thumbnail", backendImage);
+  if (backendImage) {
+    formData.append("thumbnail", backendImage);
+  }
   formData.append("isPublished", isPublished);
 
   try {
@@ -85,16 +87,16 @@ function EditCourse() {
 
     const updatedCourse = result.data;
     if (updatedCourse.isPublished) {
-      const updatedCourses = courseData.map(c =>
+      const updatedCourses = creatorCourseData.map(c =>
         c._id === courseId ? updatedCourse : c
       );
-      if (!courseData.some(c => c._id === courseId)) {
+      if (!creatorCourseData.some(c => c._id === courseId)) {
         updatedCourses.push(updatedCourse);
       }
-      dispatch(setCourseData(updatedCourses));
+      dispatch(setCreatorCourseData(updatedCourses));
     } else {
-      const filteredCourses = courseData.filter(c => c._id !== courseId);
-      dispatch(setCourseData(filteredCourses));
+      const filteredCourses = creatorCourseData.filter(c => c._id !== courseId);
+      dispatch(setCreatorCourseData(filteredCourses));
     }
 
     navigate("/courses");
@@ -113,8 +115,8 @@ function EditCourse() {
     try {
       const result = await axios.delete(serverUrl + `/api/course/removecourse/${courseId}` , {withCredentials:true})
       toast.success("Course Deleted")
-       const filteredCourses = courseData.filter(c => c._id !== courseId);
-      dispatch(setCourseData(filteredCourses));
+       const filteredCourses = creatorCourseData.filter(c => c._id !== courseId);
+      dispatch(setCreatorCourseData(filteredCourses));
       console.log(result.data)
       navigate("/courses")
       setLoading(false)

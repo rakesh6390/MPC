@@ -16,8 +16,11 @@ try {
     fs.unlinkSync(filePath)
     return uploadResult.secure_url
 } catch (error) {
-    fs.unlinkSync(filePath)
-    console.log(error);
+    if (filePath && fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath)
+    }
+    console.log("Cloudinary upload failed:", error);
+    throw error
 }
 }
 

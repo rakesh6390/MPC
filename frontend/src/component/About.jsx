@@ -10,7 +10,7 @@ function About() {
         <div className='lg:w-[40%] md:w-[80%] w-[100%] h-[100%] flex  items-center justify-center relative' >
             <img src={about} className='w-[80%] h-[90%] rounded-lg ' alt="" />
             <div className="max-w-[350px] ma-auto p-4 absolute top-[55%] left-[50%]">
-              <video src={video} className="w-full rounded-xl shadow-lg border-2 border-white" controls autoplay loop />
+              <video src={video} className="w-full rounded-xl shadow-lg border-2 border-white" controls autoPlay loop />
             </div>
 
         </div>
